@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GitHub Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    .section {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, button, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #eee;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    li:hover {
+      background: #ddd;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>GitHub Admin Panel</h2>
+
+    <div class="section">
+      <h3>➕ Add New User</h3>
+      <input id="addName" placeholder="Username">
+      <input id="addPass" placeholder="Password">
+      <button onclick="addUserUI()">Add User</button>
+      <div id="addResult"></div>
+    </div>
+
+    <div class="section">
+      <h3>👥 All Users</h3>
+      <button onclick="loadUsers()">Refresh List</button>
+      <ul id="userList"></ul>
+    </div>
+
+    <div class="section">
+      <h3>✏️ View/Edit User</h3>
+      <strong id="selectedUser">No user selected</strong>
+      <textarea id="userData" placeholder="User data JSON will appear here..."></textarea>
+      <button onclick="saveUserData()">Save Changes</button>
+      <button onclick="deleteUser()">Delete This User</button>
+      <div id="saveResult"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==== GITHUB CONFIG ====
+    const githubUser = "Murgrip";
+    const repo = "Account1";
+    const branch = "main";
+    const token = "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";
+
+    const headers = {
+      "Content-Type": "application/json",
+      "Authorization": "token " + token
+    };
+
+    let currentUser = '';
+
+    // ==== ADD USER ====
+    async function addUserUI() {
+      const username = addName.value.trim();
+      const pass = addPass.value.trim();
+      if (!username || !pass) return alert("Enter username and password.");
+
+      const path = `users/${username}.json`;
+      const exists = await checkIfExists(path);
+      if (exists) return addResult.innerText = "Username already exists.";
+
+      const data = [{ password: pass }];
+      const res = await uploadFile(path, JSON.stringify(data, null, 2), `Add user ${username}`);
+      addResult.innerText = res.ok ? "User added!" : "Failed to add user.";
+      loadUsers();
+    }
+
+    // ==== LOAD USER LIST ====
+    async function loadUsers() {
+      const res = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/users`, { headers });
+      const files = await res.json();
+      userList.innerHTML = '';
+      files.forEach(file => {
+        if (file.name.endsWith('.json')) {
+          const username = file.name.replace('.json', '');
+          const li = document.createElement('li');
+          li.innerText = username;
+          li.onclick = () => loadUser(username);
+          userList.appendChild(li);
+        }
+      });
+    }
+
+    // ==== LOAD SELECTED USER ====
+    async function loadUser(username) {
+      currentUser = username;
+      const path = `users/${username}.json`;
+      const res = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, { headers });
+      const data = await res.json();
+      const content = atob(data.content);
+      userData.value = content;
+      selectedUser.innerText = `Selected: ${username}`;
+    }
+
+    // ==== SAVE USER DATA ====
+    async function saveUserData() {
+      if (!currentUser) return alert("No user selected.");
+      const path = `users/${currentUser}.json`;
+
+      const get = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, { headers });
+      const meta = await get.json();
+      const encoded = btoa(unescape(encodeURIComponent(userData.value)));
+
+      const res = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({
+          message: `Update user ${currentUser}`,
+          content: encoded,
+          sha: meta.sha,
+          branch
+        })
+      });
+
+      saveResult.innerText = res.ok ? "Saved!" : "Save failed.";
+    }
+
+    // ==== DELETE USER ====
+    async function deleteUser() {
+      if (!currentUser) return alert("No user selected.");
+      const path = `users/${currentUser}.json`;
+
+      const get = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, { headers });
+      const meta = await get.json();
+
+      const res = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, {
+        method: "DELETE",
+        headers,
+        body: JSON.stringify({
+          message: `Delete user ${currentUser}`,
+          sha: meta.sha,
+          branch
+        })
+      });
+
+      if (res.ok) {
+        saveResult.innerText = "User deleted.";
+        currentUser = '';
+        selectedUser.innerText = "No user selected";
+        userData.value = '';
+        loadUsers();
+      } else {
+        saveResult.innerText = "Failed to delete.";
+      }
+    }
+
+    // ==== UTILITIES ====
+    async function checkIfExists(path) {
+      const res = await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, { headers });
+      return res.ok;
+    }
+
+    async function uploadFile(path, content, message) {
+      const encoded = btoa(unescape(encodeURIComponent(content)));
+      return await fetch(`https://api.github.com/repos/${githubUser}/${repo}/contents/${path}`, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ message, content: encoded, branch })
+      });
+    }
+  </script>
+  
+</body>
+</html>
