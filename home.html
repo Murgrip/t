@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Murgrip App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background-color: #1e1e1e;
+      border-bottom: 1px solid #333;
+      z-index: 100;
+      height: 60px;
+    }
+
+    .header .menu,
+    .header .more {
+      font-size: 24px;
+      cursor: pointer;
+      color: #00ff99;
+    }
+
+    .header .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #00ff99;
+      text-shadow: 0 0 10px rgba(0, 255, 153, 0.3);
+    }
+
+    /* Main Content Area */
+    .content {
+      padding: 20px;
+      margin-top: 60px; /* Account for fixed header */
+      min-height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+
+    /* Fixed FAB */
+    .fab {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 56px;
+      height: 56px;
+      background-color: #00ff99;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: #121212;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 255, 153, 0.4);
+      z-index: 10;
+      transition: transform 0.2s;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 60px; /* Below header */
+      left: -250px;
+      width: 250px;
+      height: calc(100vh - 60px);
+      background-color: #1b1b1b;
+      transition: 0.3s;
+      padding: 20px;
+      z-index: 99;
+      border-right: 1px solid #00ff99;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar h3 {
+      color: #00ff99;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .sidebar a {
+      color: #fff;
+      display: block;
+      padding: 12px 15px;
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+      background: #2b2b2b;
+      color: #00ff99;
+    }
+
+    .sidebar .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: #00ff99;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* Three Dots Menu */
+    .dots-menu {
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      background-color: #1e1e1e;
+      border: 1px solid #444;
+      border-radius: 6px;
+      display: none;
+      flex-direction: column;
+      z-index: 101;
+      width: 150px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .dots-menu button {
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+
+    .dots-menu button:hover {
+      background-color: #333;
+    }
+
+    /* Popup Styles */
+    .prompt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #1b1b1b;
+      color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+      z-index: 1000;
+      transition: 0.3s ease;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      opacity: 0;
+    }
+
+    .prompt-popup.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .prompt-popup h2 {
+      color: #00ff99;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .prompt-popup input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 10px;
+      background: #2b2b2b;
+      color: white;
+      font-size: 16px;
+    }
+
+    .prompt-popup input:focus {
+      outline: 2px solid #00ff99;
+    }
+
+    .prompt-popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #00ff99;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .prompt-btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .prompt-popup button {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      min-width: 100px;
+    }
+
+    .prompt-popup .confirm-btn {
+      background: #00ff99;
+      color: #000;
+    }
+
+    .prompt-popup .confirm-btn:hover {
+      background: #00e68a;
+    }
+
+    .prompt-popup .cancel-btn {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #444;
+    }
+
+    .prompt-popup .cancel-btn:hover {
+      background: #333;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 60px; /* Below header */
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 60px);
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 98;
+      display: none;
+      backdrop-filter: blur(5px);
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00ff99;
+      padding: 12px 24px;
+      color: #121212;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+      z-index: 200;
+      box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3);
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Header -->
+  <div class="header">
+    <div class="menu" onclick="toggleSidebar()">&#9776;</div>
+    <div class="title">Murgrip App</div>
+    <div class="more" onclick="toggleDotsMenu(event)">&#8942;</div>
+
+    <!-- Three Dots Menu -->
+    <div class="dots-menu" id="dotsMenu">
+      <button onclick="showToast('Option 1 Selected')">Option 1</button>
+      <button onclick="showToast('Option 2 Selected')">Option 2</button>
+      <button onclick="showToast('Option 3 Selected')">Option 3</button>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">×</button>
+    <h3>Menu</h3>
+    <a href="#" onclick="showToast('Home selected')">Home</a>
+    <a href="#" onclick="showToast('Settings selected')">Settings</a>
+    <a href="#" onclick="promptPopup('Enter your name:').then(name => showToast(`Hello ${name}`))">Get Name</a>
+    <a href="#" onclick="confirmPopup('Are you sure?').then(confirmed => showToast(confirmed ? 'Confirmed!' : 'Cancelled'))">Confirm Test</a>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay" onclick="closeAllMenus()"></div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h2>Welcome to Murgrip App</h2>
+    <p>Try the interactive elements:</p>
+    <button onclick="promptPopup('Enter your data:').then(data => showToast(`You entered: ${data}`))" 
+            style="background: #00ff99; color: #000; padding: 10px 20px; border: none; border-radius: 8px; margin: 10px 0; cursor: pointer;">
+      Test Prompt
+    </button>
+    <button onclick="confirmPopup('Do you want to continue?').then(result => showToast(result ? 'You continued' : 'You cancelled'))" 
+            style="background: #2b2b2b; color: #fff; padding: 10px 20px; border: 1px solid #444; border-radius: 8px; margin: 10px 0; cursor: pointer;">
+      Test Confirm
+    </button>
+    
+    <!-- Sample content to make the page scrollable -->
+    <div style="height: 1000px; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
+      <p>Scrollable content area</p>
+    </div>
+  </div>
+
+  <!-- Fixed FAB -->
+  <div class="fab" onclick="promptPopup('Enter something:').then(val => showToast(`You entered: ${val}`))">+</div>
+
+  <!-- Prompt Popup -->
+  <div class="prompt-popup" id="promptPopup">
+    <button class="close-btn" onclick="closePrompt()">×</button>
+    <h2 id="promptTitle">Prompt</h2>
+    <input type="text" id="promptInput" placeholder="Enter value...">
+    <div class="prompt-btn-container">
+      <button class="cancel-btn" id="promptCancel">Cancel</button>
+      <button class="confirm-btn" id="promptConfirm">Continue</button>
+    </div>
+  </div>
+
+  <!-- Confirm Popup -->
+  <div class="prompt-popup" id="confirmPopup">
+    <button class="close-btn" onclick="closeConfirm()">×</button>
+    <h2 id="confirmTitle">Confirm</h2>
+    <p id="confirmMessage">Are you sure?</p>
+    <div class="prompt-btn-container">
+      <button class="cancel-btn" id="confirmCancel">Cancel</button>
+      <button class="confirm-btn" id="confirmConfirm">Continue</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Notification</div>
+
+  <script>
+    // Toggle sidebar
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      sidebar.classList.toggle("active");
+      overlay.classList.toggle("active");
+    }
+
+    // Toggle dots menu
+    function toggleDotsMenu(event) {
+      event.stopPropagation(); // Prevent immediate closing
+      const menu = document.getElementById("dotsMenu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+
+    // Close all menus
+    function closeAllMenus() {
+      document.getElementById("sidebar").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+      document.getElementById("dotsMenu").style.display = "none";
+    }
+
+    // Close dots menu when clicking anywhere
+    document.addEventListener('click', function() {
+      document.getElementById("dotsMenu").style.display = "none";
+    });
+
+    // Prevent dots menu from closing when clicking inside it
+    document.getElementById("dotsMenu").addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+
+    // Prompt Popup Function
+    function promptPopup(message, defaultValue = "") {
+      return new Promise((resolve) => {
+        const popup = document.getElementById("promptPopup");
+        const overlay = document.getElementById("overlay");
+        const input = document.getElementById("promptInput");
+        const title = document.getElementById("promptTitle");
+        
+        title.textContent = message;
+        input.value = defaultValue;
+        
+        const confirmBtn = document.getElementById("promptConfirm");
+        const cancelBtn = document.getElementById("promptCancel");
+        
+        // Clear previous event listeners
+        const newConfirm = confirmBtn.cloneNode(true);
+        const newCancel = cancelBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+        cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+        
+        newConfirm.onclick = () => {
+          popup.classList.remove("active");
+          overlay.classList.remove("active");
+          resolve(input.value);
+        };
+        
+        newCancel.onclick = () => {
+          popup.classList.remove("active");
+          overlay.classList.remove("active");
+          resolve(null);
+        };
+        
+        popup.classList.add("active");
+        overlay.classList.add("active");
+        input.focus();
+      });
+    }
+
+    function closePrompt() {
+      document.getElementById("promptPopup").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+    }
+
+    // Confirm Popup Function
+    function confirmPopup(message) {
+      return new Promise((resolve) => {
+        const popup = document.getElementById("confirmPopup");
+        const overlay = document.getElementById("overlay");
+        const messageEl = document.getElementById("confirmMessage");
+        
+        messageEl.textContent = message;
+        
+        const confirmBtn = document.getElementById("confirmConfirm");
+        const cancelBtn = document.getElementById("confirmCancel");
+        
+        // Clear previous event listeners
+        const newConfirm = confirmBtn.cloneNode(true);
+        const newCancel = cancelBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+        cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+        
+        newConfirm.onclick = () => {
+          popup.classList.remove("active");
+          overlay.classList.remove("active");
+          resolve(true);
+        };
+        
+        newCancel.onclick = () => {
+          popup.classList.remove("active");
+          overlay.classList.remove("active");
+          resolve(false);
+        };
+        
+        popup.classList.add("active");
+        overlay.classList.add("active");
+      });
+    }
+
+    function closeConfirm() {
+      document.getElementById("confirmPopup").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+    }
+  </script>
+</body>
+    </html>
