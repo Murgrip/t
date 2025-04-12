@@ -1,0 +1,80 @@
+<body>
+  <div id="files-container"></div>
+
+  <script>
+    const GITHUB_TOKEN = "";
+    const REPO = "Murgrip/auth-repo"; // e.g., murgrip/project
+    const BRANCH = "main";
+
+    async function fetchAllFiles() {
+      const url = `https://api.github.com/repos/${REPO}/git/trees/${BRANCH}?recursive=1`;
+
+      try {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `token ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json"
+          }
+        });
+
+        const data = await res.json();
+        if (!data.tree) throw new Error("Invalid tree structure");
+
+        const files = data.tree.filter(item => item.type === "blob");
+
+        const container = document.getElementById("files-container");
+        container.innerHTML = "";
+
+        files.forEach(file => {
+          const div = document.createElement("div");
+          div.textContent = file.path;
+          div.style.cursor = "pointer";
+          div.style.marginBottom = "5px";
+          div.style.padding = "4px";
+          div.style.border = "1px solid #ccc";
+
+          div.addEventListener("click", () => fetchFileContent(file.path, div));
+
+          container.appendChild(div);
+        });
+
+      } catch (err) {
+        document.getElementById("files-container").textContent = "Error: " + err.message;
+      }
+    }
+
+    async function fetchFileContent(path, parentDiv) {
+      const url = `https://api.github.com/repos/${REPO}/contents/${path}`;
+      try {
+        const res = await fetch(url, {
+          headers: {
+            Authorization: `token ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json"
+          }
+        });
+
+        const data = await res.json();
+        if (!data.content) throw new Error("No file content found");
+
+        const decoded = decodeURIComponent(escape(atob(data.content)));
+        const contentDiv = document.createElement("pre");
+        contentDiv.textContent = decoded;
+        contentDiv.style.background = "#f5f5f5";
+        contentDiv.style.padding = "10px";
+        contentDiv.style.marginTop = "5px";
+        contentDiv.style.whiteSpace = "pre-wrap";
+
+        // Remove existing content div if present
+        const existing = parentDiv.querySelector("pre");
+        if (existing) existing.remove();
+
+        parentDiv.appendChild(contentDiv);
+
+      } catch (err) {
+        alert("Failed to load content: " + err.message);
+      }
+    }
+
+    fetchAllFiles();
+  </script>
+</body>
