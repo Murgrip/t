@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Murgrip Quiz</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background-color: #1e1e1e;
+      border-bottom: 1px solid #333;
+      z-index: 100;
+      height: 60px;
+    }
+
+    .header .menu,
+    .header .more {
+      font-size: 24px;
+      cursor: pointer;
+      color: #00ff99;
+    }
+
+    .header .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #00ff99;
+      text-shadow: 0 0 10px rgba(0, 255, 153, 0.3);
+    }
+
+    /* Main Content Area */
+    .content {
+      padding: 20px;
+      margin-top: 60px; /* Account for fixed header */
+      min-height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+
+    /* Quiz Section */
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #1b1b1b;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 255, 153, 0.2);
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #333;
+    }
+
+    .quiz-title {
+      font-size: 24px;
+      color: #00ff99;
+    }
+
+    .help-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #00ff99;
+      color: #121212;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .question-box {
+      margin-bottom: 30px;
+    }
+
+    .question-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .options-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .options-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .option-btn {
+      padding: 15px;
+      background: #2b2b2b;
+      border: 1px solid #444;
+      border-radius: 10px;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .option-btn:hover {
+      background: #333;
+      border-color: #00ff99;
+    }
+
+    .option-btn.selected {
+      background: #00ff9940;
+      border-color: #00ff99;
+      color: #00ff99;
+    }
+
+    .quiz-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .quiz-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .quiz-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .back-btn {
+      background: #2b2b2b;
+      color: #fff;
+      border: 1px solid #444;
+    }
+
+    .back-btn:hover:not(:disabled) {
+      background: #333;
+    }
+
+    .next-btn {
+      background: #00ff99;
+      color: #000;
+    }
+
+    .next-btn:hover:not(:disabled) {
+      background: #00e68a;
+    }
+
+    /* Popup Styles (same as before) */
+    .prompt-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #1b1b1b;
+      color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+      z-index: 1000;
+      transition: 0.3s ease;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      opacity: 0;
+    }
+
+    .prompt-popup.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .prompt-popup h2 {
+      color: #00ff99;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .prompt-popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #00ff99;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .prompt-btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .prompt-popup button {
+      padding: 10px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+      min-width: 100px;
+    }
+
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 60px; /* Below header */
+      left: 0;
+      width: 100%;
+      height: calc(100vh - 60px);
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 98;
+      display: none;
+      backdrop-filter: blur(5px);
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00ff99;
+      padding: 12px 24px;
+      color: #121212;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      display: none;
+      z-index: 200;
+      box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3);
+      animation: fadeInOut 3s ease-in-out;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Header -->
+  <div class="header">
+    <div class="menu">&#9776;</div>
+    <div class="title">Murgrip Quiz</div>
+    <div class="more">&#8942;</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <h1 class="quiz-title">JavaScript Basics Quiz</h1>
+        <div class="help-btn" onclick="showHelp()">?</div>
+      </div>
+
+      <div class="question-box">
+        <p class="question-text" id="question-text">What is the correct syntax for referring to an external script called 'script.js'?</p>
+        
+        <div class="options-container" id="options-container">
+          <!-- Options will be inserted here by JavaScript -->
+        </div>
+      </div>
+
+      <div class="quiz-navigation">
+        <button class="quiz-btn back-btn" id="back-btn" disabled onclick="prevQuestion()">Back</button>
+        <button class="quiz-btn next-btn" id="next-btn" onclick="nextQuestion()">Next Question</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Popup -->
+  <div class="prompt-popup" id="helpPopup">
+    <button class="close-btn" onclick="closeHelp()">×</button>
+    <h2>Quiz Help</h2>
+    <p style="text-align: left; margin-bottom: 20px; line-height: 1.6;">
+      Welcome to the JavaScript Basics Quiz!<br><br>
+      • Read each question carefully<br>
+      • Select one answer by clicking on it<br>
+      • Use the navigation buttons to move between questions<br>
+      • You can change your answer before submitting<br>
+      • Good luck!
+    </p>
+    <div class="prompt-btn-container">
+      <button class="quiz-btn next-btn" onclick="closeHelp()">Got It!</button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Notification</div>
+
+  <script>
+    // Quiz Data
+    const quizQuestions = [
+      {
+        question: "What is the correct syntax for referring to an external script called 'script.js'?",
+        options: [
+          "<script name='script.js'>",
+          "<script src='script.js'>",
+          "<script href='script.js'>",
+          "<script file='script.js'>"
+        ],
+        correctAnswer: 1
+      },
+      {
+        question: "How do you write 'Hello World' in an alert box?",
+        options: [
+          "alertBox('Hello World');",
+          "msg('Hello World');",
+          "alert('Hello World');",
+          "msgBox('Hello World');"
+        ],
+        correctAnswer: 2
+      },
+      {
+        question: "Which operator is used to assign a value to a variable?",
+        options: [
+          "*",
+          "-",
+          "=",
+          "x"
+        ],
+        correctAnswer: 2
+      },
+      {
+        question: "What will the following code return: Boolean(10 > 9)?",
+        options: [
+          "NaN",
+          "false",
+          "true",
+          "undefined"
+        ],
+        correctAnswer: 2
+      }
+    ];
+
+    let currentQuestion = 0;
+    let userAnswers = Array(quizQuestions.length).fill(null);
+
+    // Initialize quiz
+    function loadQuestion() {
+      const question = quizQuestions[currentQuestion];
+      document.getElementById("question-text").textContent = question.question;
+      
+      const optionsContainer = document.getElementById("options-container");
+      optionsContainer.innerHTML = "";
+      
+      question.options.forEach((option, index) => {
+        const optionBtn = document.createElement("button");
+        optionBtn.className = "option-btn";
+        if (userAnswers[currentQuestion] === index) {
+          optionBtn.classList.add("selected");
+        }
+        optionBtn.textContent = option;
+        optionBtn.onclick = () => selectOption(index);
+        optionsContainer.appendChild(optionBtn);
+      });
+      
+      // Update navigation buttons
+      document.getElementById("back-btn").disabled = currentQuestion === 0;
+      document.getElementById("next-btn").textContent = 
+        currentQuestion === quizQuestions.length - 1 ? "Submit Quiz" : "Next Question";
+    }
+
+    // Select an option
+    function selectOption(optionIndex) {
+      // Remove selected class from all options
+      document.querySelectorAll(".option-btn").forEach(btn => {
+        btn.classList.remove("selected");
+      });
+      
+      // Add selected class to clicked option
+      document.querySelectorAll(".option-btn")[optionIndex].classList.add("selected");
+      userAnswers[currentQuestion] = optionIndex;
+    }
+
+    // Next question
+    function nextQuestion() {
+      if (userAnswers[currentQuestion] === null) {
+        showToast("Please select an answer!");
+        return;
+      }
+      
+      if (currentQuestion < quizQuestions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        // Submit quiz
+        const score = calculateScore();
+        showHelp(`Quiz Completed! Your score: ${score}/${quizQuestions.length}`);
+      }
+    }
+
+    // Previous question
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    // Calculate score
+    function calculateScore() {
+      let score = 0;
+      userAnswers.forEach((answer, index) => {
+        if (answer === quizQuestions[index].correctAnswer) {
+          score++;
+        }
+      });
+      return score;
+    }
+
+    // Show help popup
+    function showHelp(message) {
+      const popup = document.getElementById("helpPopup");
+      const overlay = document.getElementById("overlay");
+      
+      if (message) {
+        document.querySelector("#helpPopup h2").textContent = "Quiz Results";
+        document.querySelector("#helpPopup p").innerHTML = message;
+        document.querySelector("#helpPopup .next-btn").textContent = "Finish";
+      }
+      
+      popup.classList.add("active");
+      overlay.classList.add("active");
+    }
+
+    // Close help popup
+    function closeHelp() {
+      document.getElementById("helpPopup").classList.remove("active");
+      document.getElementById("overlay").classList.remove("active");
+      
+      // Reset if they finished the quiz
+      if (currentQuestion === quizQuestions.length - 1 && userAnswers[currentQuestion] !== null) {
+        currentQuestion = 0;
+        userAnswers = Array(quizQuestions.length).fill(null);
+        loadQuestion();
+      }
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
+    }
+
+    // Initialize the quiz
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>
