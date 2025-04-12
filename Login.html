@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Murgrip Login</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #0f0f0f;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #1b1b1b;
+      padding: 40px;
+      border-radius: 20px;
+      width: 350px;
+      box-shadow: 0 0 25px rgba(0, 255, 150, 0.3);
+    }
+    h2 {
+      text-align: center;
+      color: #00ff99;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: #2b2b2b;
+      color: white;
+      font-size: 16px;
+    }
+    input:focus {
+      outline: 2px solid #00ff99;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00ff99;
+      border: none;
+      border-radius: 10px;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #00e68a;
+    }
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+      color: #aaa;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .toggle:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* Popup Styling */
+    .popup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #1b1b1b;
+      color: #00ff99;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ff99;
+      z-index: 999;
+      transition: 0.3s ease;
+      text-align: center;
+      min-width: 250px;
+    }
+    .popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .popup button {
+      background: #00ff99;
+      color: black;
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="authBox">
+    <h2 id="formTitle">Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleAuth()">Login</button>
+    <div class="toggle" onclick="toggleMode()">Don't have an account? Register</div>
+  </div>
+
+  <!-- Custom Popup -->
+  <div class="popup" id="popupBox">
+    <div id="popupMsg">Message here</div>
+    <button onclick="closePopup()">OK</button>
+  </div>
+
+  <script>
+    let mode = "login";
+    function toggleMode() {
+      mode = mode === "login" ? "register" : "login";
+      document.getElementById("formTitle").textContent = mode === "login" ? "Login" : "Register";
+      document.querySelector("button").textContent = mode === "login" ? "Login" : "Register";
+      document.querySelector(".toggle").textContent =
+        mode === "login"
+          ? "Don't have an account? Register"
+          : "Already have an account? Login";
+    }
+
+    function handleAuth() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      if (!username || !password) return showPopup("Please fill in all fields.");
+      if (mode === "login") {
+        showPopup(`Logged in as <b>${username}</b>`);
+        
+      } else {
+        showPopup(`Please wait...`);
+        addUser(username, password).then(showPopup);
+      }
+    }
+
+    function showPopup(message) {
+      const popup = document.getElementById("popupBox");
+      document.getElementById("popupMsg").innerHTML = message;
+      popup.classList.add("active");
+    }
+
+    function closePopup() {
+      document.getElementById("popupBox").classList.remove("active");
+    }
+  </script>
+  <script src="function.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
