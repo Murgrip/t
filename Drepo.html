@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <textarea id="info" placeholder="Enter token, username, repo name (each on new line)"></textarea>
+  <button onclick="deleteRepo()">Delete Repo</button>
+
+  <script>
+    async function deleteRepo() {
+      const [token, username, repo] = document.getElementById("info").value.trim().split("\n");
+      const info = document.getElementById("info");
+
+      if (!token || !username || !repo) {
+        info.value = "❗ Enter token, username, and repo name (one per line)";
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${username}/${repo}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (res.status === 204) {
+          info.value = `✅ Deleted repo: ${username}/${repo}`;
+        } else {
+          const data = await res.json();
+          info.value = `❌ Error: ${data.message || res.status}`;
+        }
+      } catch (err) {
+        info.value = `❌ Network error: ${err}`;
+      }
+    }
+  </script>
+</body>
+</html>
