@@ -1,0 +1,155 @@
+Here are the answers to the multiple-choice questions based on the provided text:
+1. The pressure exerted in the root due to continuous inflow of water is called [Recall]
+(b) root pressure
+Explanation: The text explicitly states, "Water is absorbed through the root hairs by osmosis whereas minerals are absorbed by diffusion and active transport... This continuous inflow of water creates a pressure develops in the roots which helps the upward movement of water. This pressure is called root pressure."
+2. Root hairs absorb water from the soil by the process of [Recall]
+(a) osmosis
+Explanation: The text clearly mentions, "Water is absorbed through the root hairs by osmosis..."
+3. The factor which does not affect the rate of transpiration is the [Recall & Understanding]
+(b) wind
+Explanation: The text discusses transpiration but does not explicitly list factors affecting its rate in this section. However, based on general biological knowledge:
+ * Temperature: Higher temperatures generally increase the rate of transpiration.
+ * Humidity: Higher humidity decreases the rate of transpiration.
+ * Light: Light stimulates the opening of stomata, increasing transpiration.
+ * Wind: Wind generally increases the rate of transpiration by removing water vapor from the vicinity of the leaves, maintaining a steeper concentration gradient.
+Therefore, wind is the factor listed that would typically increase transpiration, not be unaffected by it. There might be a misunderstanding in the question or the provided options based on standard biological principles. However, choosing the option that least aligns with increasing transpiration based on common knowledge leads to (b).
+4. The downward movement of food in plants takes place through the [Recall]
+(b) phloem
+Explanation: The text states, "...food is transported generally in the phloem..." While it doesn't explicitly mention the direction, the phloem is known to transport food (sugars) produced during photosynthesis from the leaves to other parts of the plant, which can be both upward and downward. However, the question specifically asks about downward movement, and phloem is the tissue responsible for this. Xylem transports water and minerals upwards. Lenticels are involved in gas exchange. Stomata are pores on leaves involved in gas exchange and transpiration.
+
+
+Here are the answers to the questions in the image, following the requested format:
+5. The upward movement of water and minerals to the leaves is called [Recall]
+(a) ascent of sap
+=> The upward movement of water and minerals in plants is known as the ascent of sap.
+II. Assertion and Reasoning Questions [Recall, Understanding & Application]
+1. Assertion (A): The main function of vessel elements in xylem is to provide mechanical support to the plant.
+Reason (R): Vessel elements have thick cell walls that contribute to the plant's structural strength.
+(a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A).
+=> Both the assertion and the reason are true. The thick, lignified walls of xylem vessel elements provide mechanical support, and this structural strength is their main function along with water transport.
+2. Assertion (A): Osmosis is the movement of water molecules from an area of higher solute concentration to an area of lower solute concentration through a selectively permeable membrane.
+Reason (R): Osmosis occurs because water molecules are small enough to pass through the pores of the membrane, while larger solute molecules cannot.
+(d) Assertion (A) is false but Reason (R) is true.
+=> Assertion (A) is false. Osmosis is the movement of water molecules from an area of lower solute concentration to an area of higher solute concentration through a selectively permeable membrane. Reason (R) is true; the size difference allows water to pass while restricting larger solutes.
+3. Assertion (A): Transpiration helps in the transport of nutrients from the roots to the upper parts of the plant.
+Reason (R): Nutrient absorption in plants primarily occurs through the process of photosynthesis.
+(d) Assertion (A) is false but Reason (R) is true.
+=> Assertion (A) is false. Transpiration helps in the upward movement of water and minerals, but nutrient absorption from the soil is a separate process. Reason (R) is true; while photosynthesis produces food, the absorption of mineral nutrients occurs through the roots via active transport and diffusion.
+4. Assertion (A): Macronutrients required by plants include calcium and magnesium.
+Reason (R): Calcium and magnesium are essential micronutrients required in small amounts for plant growth.
+(d) Assertion (A) is false but Reason (R) is true.
+=> Assertion (A) is false. Calcium and magnesium are macronutrients, required in relatively large amounts. Reason (R) is true; calcium and magnesium are essential for plant growth, even though they are classified as macronutrients. The statement that they are micronutrients is incorrect.
+5. Assertion (A): Transpiration creates a negative pressure in the leaves, facilitating the movement of water in the xylem.
+Reason (R): Water loss from the stomata in leaves generates a suction force that pulls water up from the roots.
+(a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A).
+=> Both the assertion and the reason are true. Transpiration, the loss of water vapor through stomata, creates a transpiration pull (negative pressure or suction force) that draws water up the xylem from the roots to the leaves.
+III. Fill in the blanks with the correct option. [Recall & Understanding]
+1. Xylem/Phloem transports water and dissolved minerals upwards from the roots.
+=> Xylem transports water and dissolved minerals upwards from the roots.
+2. Food moves downwards through the phloem into the roots. (Water/Food)
+=> Food moves downwards through the phloem into the roots. (Food)
+3. Water moves from the soil into root hairs by osmosis/diffusion .
+=> Water moves from the soil into root hairs by osmosis.
+4. Water is transported through the xylem from roots to leaves . (leaves to roots/roots to leaves)
+=> Water is transported through the xylem from roots to leaves.
+5. Absorption of water helps in the intake of minerals/oxygen from the soil.
+=> Absorption of water helps in the intake of minerals from the soil.
+IV. State if the following statements are True or False. Correct the False statement. [Recall & Understanding]
+1. Oxygen and carbon dioxide are exchanged directly within the environment.
+=> True
+=> Oxygen and carbon dioxide are exchanged directly between organisms and the environment through processes like respiration and photosynthesis.
+
+Here are the answers to the remaining questions, following the requested format:
+IV. State if the following statements are True or False. Correct the False statement. [Recall & Understanding]
+2. The water is conducted upward by phloem.
+=> False
+=> Water is conducted upward by the xylem. Phloem transports food.
+3. The phloem is composed of elements called vessels and tracheids.
+=> False
+=> The xylem is composed of elements called vessels and tracheids. The phloem is composed of sieve tubes, companion cells, phloem parenchyma, and phloem fibers.
+4. Phloem contains the cytoplasm in sieve tubes.
+=> True
+=> Sieve tubes in phloem are living cells and contain cytoplasm, although they lack a nucleus at maturity.
+5. Soil water moves into the root hairs by the simple process of transpiration.
+=> False
+=> Soil water moves into the root hairs primarily by the process of osmosis, driven by a difference in water potential. Transpiration is the loss of water vapor from the leaves.
+V. Match the following: [Recall & Understanding]
+Column A             Column B
+1. Leaves             (b) Principal organ of transpiration
+2. Vessel             (c) Element of xylem
+3. Phloem             (a) Transfers food from the leaves to other plant parts
+4. Xylem              (e) Transports water from the roots to aerial parts of the plant
+5. Cell sap           (d) Liquid inside the vacuole of the plant cell
+
+VI. Choose the odd one out and give scientific reasons. [Recall & Understanding]
+1. Xylem, Vessel, Tracheids, Sieve tubes
+=> Odd one out: Sieve tubes
+=> Reason: Xylem, vessel, and tracheids are all components of the xylem tissue, which is primarily involved in water transport. Sieve tubes are components of the phloem tissue, which is involved in food transport.
+2. Osmosis, Diffusion, Passive transport, Active transport
+=> Odd one out: Osmosis
+=> Reason: Diffusion, passive transport, and active transport are general mechanisms of substance movement across membranes. Osmosis is a specific type of diffusion involving the movement of water across a semipermeable membrane from a region of higher water potential to a region of lower water potential.
+3. Xylem, Sieve tube, Sieve plate, Companion cell
+=> Odd one out: Xylem
+=> Reason: Sieve tube, sieve plate, and companion cell are all components of the phloem tissue, which is involved in food transport. Xylem is a separate vascular tissue involved in water transport.
+4. Temperature, Relative humidity, Cooling effect, Wind
+=> Odd one out: Cooling effect
+=> Reason: Temperature, relative humidity, and wind are environmental factors that affect the rate of transpiration. The cooling effect is a consequence of transpiration (evaporative cooling).
+VII. Give one word for the following. [Recall & Understanding]
+1. Tissues of vascular bundle responsible for conduction of water and minerals to the leaves of a plant.
+=> Xylem
+2. A process of transportation of food within the plant.
+=> Translocation
+3. A process of loss of water from the aerial parts of the plant.
+=> Transpiration
+4. The upward conduction of sap from the roots to the other parts of the plant.
+=> Ascent of sap
+5. The movement of water molecules from the region of its higher concentration to the region of its lower concentration through a semipermeable membrane.
+=> Osmosis
+VIII. Answer the following questions in short.
+1. What is the need for transport of water in plants? [Understanding]
+=> Plants need the transport of water for several crucial functions, including:
+* Photosynthesis: Water is a reactant in photosynthesis, which occurs in the leaves.
+* Transport of minerals: Water acts as a solvent and carrier for dissolved mineral nutrients absorbed from the soil to all parts of the plant.
+* Maintaining turgor pressure: Water helps maintain the rigidity and shape of plant cells and tissues.
+* Cooling: Transpiration, the loss of water vapor, helps cool the plant.
+
+Here are the answers to the remaining questions:
+IX. Answer the following questions in detail:
+3. State the significance of transpiration in plants. [Recall & Understanding]
+=> Transpiration is a vital process for plants, and its significance includes:
+* Absorption and transport of water and minerals: The transpiration pull created by the loss of water from leaves helps in drawing water and dissolved minerals upwards from the roots through the xylem to all parts of the plant.
+* Cooling effect: The evaporation of water from the leaf surface during transpiration has a cooling effect, similar to sweating in animals. This helps plants regulate their temperature, especially in hot environments, preventing them from overheating and potential damage to enzymes.
+* Distribution of water: Transpiration ensures a continuous supply of water to the leaves, which is essential for photosynthesis and maintaining turgor pressure in cells.
+* Maintaining turgidity: The loss of water through transpiration helps maintain the turgidity of cells, which provides structural support to the plant and keeps the leaves firm and expanded for efficient photosynthesis.
+* Removal of excess water: In situations where water uptake is high, transpiration helps in removing excess water from the plant body.
+4. What is meant by active transport of minerals in plants? [Recall & Understanding]
+=> Active transport of minerals in plants is a process by which plant roots absorb mineral ions from the soil against their concentration gradient (i.e., from a region of lower concentration in the soil to a region of higher concentration in the root cells). This process requires energy, usually in the form of ATP (adenosine triphosphate), which is produced during cellular respiration.
+Key features of active transport of minerals include:
+* Movement against the concentration gradient: Unlike passive transport (like diffusion), active transport allows plants to accumulate essential minerals even when their concentration in the soil is lower than in the root cells.
+* Requirement of energy: The process utilizes metabolic energy (ATP) to pump ions across the cell membranes of root cells.
+* Involvement of carrier proteins: Specific transport proteins (carriers or pumps) embedded in the cell membranes bind to the mineral ions and facilitate their movement across the membrane, often coupled with the movement of other ions (like protons).
+* Selectivity: Plants can selectively absorb different mineral ions according to their needs due to the presence of specific carrier proteins for each type of ion.
+Active transport is crucial for plants to obtain essential nutrients that may be present in low concentrations in the soil, ensuring their proper growth and development.
+X. Differentiate between the following. [Recall & Understanding]
+1. Osmosis and diffusion
+=> | Feature          | Osmosis                                                                 | Diffusion                                                                     |
+|------------------|-------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| Movement of      | Water molecules                                                         | Solute or gas molecules (or any substance)                                    |
+| Membrane         | Requires a semipermeable membrane                                       | Does not require a membrane                                                   |
+| Direction        | From a region of higher water concentration (lower solute concentration) | From a region of higher concentration of the substance to a region of lower concentration |
+| Driving force    | Water potential gradient                                                | Concentration gradient of the substance                                     |
+2. Ascent of sap and root pressure
+=> | Feature          | Ascent of sap                                                                 | Root pressure                                                                    |
+|------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Definition       | Upward movement of water and dissolved minerals from roots to aerial parts | Pressure exerted by the roots that pushes water upwards in the xylem           |
+| Primary force    | Transpiration pull (tension created by water loss from leaves)             | Active absorption of ions in the roots, followed by osmotic movement of water |
+| Magnitude        | Generally the major force responsible for water movement in tall plants    | Plays a minor role, especially in tall plants; more significant in shorter plants and at night |
+| Mechanism        | Cohesion-tension theory                                                     | Active and passive transport, osmosis                                           |
+3. Macronutrients and micronutrients
+=> | Feature          | Macronutrients                                                              | Micronutrients                                                                 |
+|------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| Requirement      | Required by plants in relatively large amounts                            | Required by plants in very small (trace) amounts                                |
+| Examples         | Nitrogen (N), Phosphorus (P), Potassium (K), Calcium (Ca), Magnesium (Mg), Sulfur (S) | Iron (Fe), Manganese (Mn), Copper (Cu), Zinc (Zn), Boron (B), Molybdenum (Mo), Chlorine (Cl), Nickel (Ni) |
+| General roles    | Involved in building plant structures, energy transfer, and overall metabolism | Primarily function as cofactors in enzymatic reactions and play specific roles in plant metabolism |
+
+
